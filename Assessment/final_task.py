@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import *
 
+#Data for the planets
 #Mass is in kilograms
 mass ={"Mercury": 3.3011*10**23,
        "Venus": 4.8675*10**24,
@@ -25,7 +26,6 @@ distance_from_sun = {"Mercury": 46000000,
                      }
 
 #Moons
-
 number_of_moons = {"Mercury": 0,
          "Venus": 0,
          "Earth": 1,
@@ -36,6 +36,7 @@ number_of_moons = {"Mercury": 0,
          "Neptune": 16
          }
 
+#Names of moons
 earth_moons = ["Moon"]
 mars_moons = ["Phobos", "Deimos"]
 jupiter_moons = ["Io", "Europa", "Ganymede", "Callisto", "Themisto"]
@@ -43,42 +44,81 @@ saturn_moons = ["Titan", "Rhea", "Pandora", "Prometheus", "Enceladus"]
 uranus_moons = ["Miranda", "Ariel", "Umbriel", "Titania", "Oberon"] 
 neptune_moons = ["Triton", "Nereid", "Proteus", "Naiad", "Thalassa"]
 
+#List of valid planets
+planets = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"]
+
+
+def check_if_planet():
+    planet = entry.get().lower().capitalize()
+    if planet in planets:
+        show_frame2()
+    else:
+       wrong_planet = tk.Label(frame1, text = planet + " is not a planet or you have made a typo", font="20", fg="red")
+       wrong_planet.pack(pady=10)
+       
+       
+#Functions to switch between frames        
+def show_frame2():
+       frame1.pack_forget()
+       frame2.pack()
+def return_to_frame1():
+       frame2.pack_forget()
+       frame1.pack()
+
+
+
 
 #Used this page to help with Tkinter https://www.geeksforgeeks.org/python/python-tkinter-tutorial/ 
 #Creating the main window
 window = Tk()
 window.title("Solar system planets")
 window.geometry("500x500")
-label = tk.Label(window, text = "Select a planet to see its details")
-label.pack(pady=20)
 
-button_venus = tk.Button(window, text = "Venus",
+#First window frame
+frame1 = tk.Frame(window)
+frame1.pack()
+label_main_text = tk.Label(frame1, text = "Please type a planet you would like to learn about:", font="50")
+label_main_text.pack(pady=20)
+entry = tk.Entry(frame1, width = 40)
+entry.pack(pady=10)
+check_button = tk.Button(frame1, text = "Submit", command=check_if_planet)
+check_button.pack(pady=10)
+
+#Second window frame
+frame2 = tk.Frame(window)
+label2 = tk.Label(frame2, text = f"You have picked {entry.get()}", font="50")
+label2.pack(pady=20)
+
+
+
+
+button_all_information = tk.Button(frame2, text = "Tell me everything you know",
                          cursor = "hand2"
                      )
-button_venus.pack(pady=10)
+button_all_information.pack(pady=10)
 
-button_earth = tk.Button(window, text = "Earth",
+button_mass = tk.Button(frame2, text = "Mass",
                          cursor = "hand2")
-button_earth.pack(pady=10)
+button_mass.pack(pady=10)
 
-button_mars = tk.Button(window, text = "Mars",
+button_distance = tk.Button(frame2, text = "Distance from the sun",
                          cursor = "hand2")
-button_mars.pack(pady=10)
+button_distance.pack(pady=10)
 
-button_jupiter = tk.Button(window, text = "Jupiter",
+button_number_moons = tk.Button(frame2, text = "Number of moons",
                             cursor = "hand2")
-button_jupiter.pack(pady=10)
+button_number_moons.pack(pady=10)
 
-button_saturn = tk.Button(window, text = "Saturn",
+button_names_moons = tk.Button(frame2, text = "Name of moons",
                           cursor = "hand2")
-button_saturn.pack(pady=10)
+button_names_moons.pack(pady=10)
 
-button_uranus = tk.Button(window, text = "Uranus",
-                          cursor = "hand2")
-button_uranus.pack(pady=10)
+button_new_planet = tk.Button(frame2, text = "Choose a new planet",
+                          cursor = "hand2", command= return_to_frame1)
+button_new_planet.pack(pady=10)
 
-button_neptune = tk.Button(window, text = "Neptune",
-                           cursor = "hand2")
-button_neptune.pack(pady=10)
+button_exit = tk.Button(frame2, text = "Exit",
+                          cursor = "hand2", command=window.quit)
+button_exit.pack(pady=10)
 
 window.mainloop()

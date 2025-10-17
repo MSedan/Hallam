@@ -1,4 +1,6 @@
 #Final assessment of the module
+import tkinter as tk
+from tkinter import *
 
 #Mass is in kilograms
 mass ={"Mercury": 3.3011*10**23,
@@ -42,3 +44,41 @@ uranus_moons = ["Miranda", "Ariel", "Umbriel", "Titania", "Oberon"]
 neptune_moons = ["Triton", "Nereid", "Proteus", "Naiad", "Thalassa"]
 
 
+#Used this page to help with Tkinter https://www.geeksforgeeks.org/python/python-tkinter-tutorial/ 
+#Creating the main window
+window = Tk()
+window.title("Solar system planets")
+window.geometry("500x500")
+label = tk.Label(window, text = "Select a planet to see its details")
+label.pack(pady=20)
+
+button_venus = tk.Button(window, text = "Venus",
+                         cursor = "hand2"
+                     )
+button_venus.pack(pady=10)
+
+button_earth = tk.Button(window, text = "Earth",
+                         cursor = "hand2")
+button_earth.pack(pady=10)
+
+button_mars = tk.Button(window, text = "Mars",
+                         cursor = "hand2")
+button_mars.pack(pady=10)
+
+button_jupiter = tk.Button(window, text = "Jupiter",
+                            cursor = "hand2")
+button_jupiter.pack(pady=10)
+
+button_saturn = tk.Button(window, text = "Saturn",
+                          cursor = "hand2")
+button_saturn.pack(pady=10)
+
+button_uranus = tk.Button(window, text = "Uranus",
+                          cursor = "hand2")
+button_uranus.pack(pady=10)
+
+button_neptune = tk.Button(window, text = "Neptune",
+                           cursor = "hand2")
+button_neptune.pack(pady=10)
+
+window.mainloop()

@@ -2,8 +2,10 @@
 import tkinter as tk
 from tkinter import *
 
+#Link to my GitHub repository: https://github.com/MSedan/Hallam
 #Data for the planets
-#Mass is in kilograms, distance from the sun is in kilometers.
+#Mass is in kilograms, distance from the sun is in kilometers. For formatting I used the help of this page: https://www.geeksforgeeks.org/python/print-number-commas-1000-separators-python/
+#Moons are capped at 5. 
 
 class Planet:
        def __init__(self, name, mass, distance_from_sun, number_of_moons, names_of_moons):
@@ -49,12 +51,11 @@ def check_if_planet(planet):
        if planet in [p.get_name() for p in valid_planets]:
               show_frame2()
               current_planet = planet
+              label_main_frame2.config(text = f"You have picked {current_planet}", fg="green", font="50")
        elif planet == "":
-              empty_label = tk.Label(frame1, text="Please enter a planet name.", fg="red")
-              empty_label.pack()
+              error_label.config(text="Please enter a planet name.", fg="red")
        else:
-              wrong_planet = tk.Label(frame1, text= planet + " is not a planet or you have made a typo. Please try again.", fg="red")
-              wrong_planet.pack()
+              error_label.config(text=planet + " is not a planet or you have made a typo. Please try again.", fg="red")
 
 #Get mass of the planet
 def get_planet_mass(current_planet):
@@ -66,7 +67,7 @@ def get_planet_mass(current_planet):
 #Function to display mass
 def display_mass():
        mass = get_planet_mass(current_planet)
-       mass_label.config(text="The mass of " + str(current_planet) + " is " + str(mass) + " kg.")
+       mass_label.config(text=f"The mass of {current_planet} is {mass:.3e} kg.")
        
 #Function to get distance from the sun
 def get_distance_from_sun(current_planet):
@@ -78,7 +79,7 @@ def get_distance_from_sun(current_planet):
 #Function to display distance from the sun
 def display_distance():
        distance = get_distance_from_sun(current_planet)
-       distance_label.config(text="The distance of " + str(current_planet) + " from the sun is " + str(distance) + " km.")
+       distance_label.config(text=f"The distance of {current_planet} from the sun is {distance:,.0f} km.")
 
 #Funtion to get number of moons
 def get_number_of_moons(current_planet):
@@ -102,13 +103,12 @@ def get_names_of_moons(current_planet):
 #Function to display names of moons
 def display_names_of_moons():
        names_of_moons = get_names_of_moons(current_planet)
-       if names_of_moons != []:
-              names_moons_label.config(text="The names of the moons are " + str(current_planet) + " are: " + ", ".join(names_of_moons) + ".")
-       elif names_of_moons == []:
+       if len(names_of_moons) > 1:
+              names_moons_label.config(text="The names of the moons for " + str(current_planet) + " are: " + ", ".join(names_of_moons) + ".")
+       elif  len(names_of_moons) == 0:
               names_moons_label.config(text=str(current_planet) + " has no moons.")
        elif len(names_of_moons) == 1:
               names_moons_label.config(text=str(current_planet) + "'s moon is " + str(names_of_moons) + ".")
-       names_moons_label.pack()
        
 
 #Functions to switch between frames
@@ -125,23 +125,25 @@ def return_to_frame1():
 #Creating the main window
 window = Tk()
 window.title("Solar system planets")
-window.geometry("500x500")
+window.geometry("600x500")
 
 #First frame
 frame1 = tk.Frame(window)
 frame1.pack()
-label_main_text = tk.Label(frame1, text = "Please type a planet you would like to learn about:", font="50")
-label_main_text.pack(pady=20)
+label_main_frame1 = tk.Label(frame1, text = "Please type a planet you would like to learn about:", font="50")
+label_main_frame1.pack(pady=20)
 entry = tk.Entry(frame1, width = 40)
 entry.pack(pady=10)
 check_button = tk.Button(frame1, text = "Submit", command=lambda: check_if_planet(get_entry(entry)),
                          cursor = "hand2")
 check_button.pack(pady=10)
+error_label = tk.Label(frame1, text = "")
+error_label.pack()
 
 #Creating the second frame
 frame2 = tk.Frame(window)
-label_main_frame2 = tk.Label(frame2, text = f"You have picked {current_planet}", font="50")
-label_main_text.pack(pady=20)
+label_main_frame2 = tk.Label(frame2, text = "")
+label_main_frame2.pack(pady=20)
 
 #Buttons and labels for frame 2
 #Used this page to help with Tkinter labels https://coderslegacy.com/python/tkinter-config/

@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import *
 
 #Data for the planets
-#Mass is in kilograms
+#Mass is in kilograms, distance from the sun is in kilometers.
 
 class Planet:
        def __init__(self, name, mass, distance_from_sun, number_of_moons, names_of_moons):
@@ -34,6 +34,8 @@ uranus = Planet("Uranus", 8.6810*10**25, 2000000000, 29, ["Miranda", "Ariel", "U
 neptune = Planet("Neptune", 1.02409*10**26, 4500000000, 16, ["Triton", "Nereid", "Proteus", "Naiad", "Thalassa"])
 
 valid_planets = [mercury, venus, earth, mars, jupiter, saturn, uranus, neptune]
+
+#Used W3Schools for a reminder on global variables https://www.w3schools.com/python/python_variables_global.asp
 current_planet = None
 
 #Function for user input
@@ -45,8 +47,8 @@ def get_entry(entry):
 def check_if_planet(planet):
        global current_planet
        if planet in [p.get_name() for p in valid_planets]:
-              current_planet = planet
               show_frame2()
+              current_planet = planet
        elif planet == "":
               empty_label = tk.Label(frame1, text="Please enter a planet name.")
               empty_label.pack()
@@ -65,7 +67,6 @@ def get_planet_mass(current_planet):
 def display_mass():
        mass = get_planet_mass(current_planet)
        mass_label.config(text="The mass of " + str(current_planet) + " is " + str(mass) + " kg.")
-       mass_label.pack()
        
 #Function to get distance from the sun
 def get_distance_from_sun(current_planet):
@@ -78,7 +79,6 @@ def get_distance_from_sun(current_planet):
 def display_distance():
        distance = get_distance_from_sun(current_planet)
        distance_label.config(text="The distance of " + str(current_planet) + " from the sun is " + str(distance) + " km.")
-       distance_label.pack()
 
 #Funtion to get number of moons
 def get_number_of_moons(current_planet):
@@ -90,8 +90,7 @@ def get_number_of_moons(current_planet):
 #Function to display number of moons
 def display_number_of_moons():
        number_of_moons = get_number_of_moons(current_planet)
-       number_moons_label.config(text="The number of moons of " + str(current_planet) + " is " + str(number_of_moons) + ".")
-       number_moons_label.pack()
+       number_moons_label.config(text=str(current_planet) + " has " + str(number_of_moons) + " moons.")
 
 #Function to get names of moons
 def get_names_of_moons(current_planet):
@@ -103,10 +102,12 @@ def get_names_of_moons(current_planet):
 #Function to display names of moons
 def display_names_of_moons():
        names_of_moons = get_names_of_moons(current_planet)
-       if names_of_moons:
-              names_moons_label.config(text="The names of the moons of " + str(current_planet) + " are: " + ", ".join(names_of_moons) + ".")
-       else:
+       if names_of_moons != []:
+              names_moons_label.config(text="The names of the moons are " + str(current_planet) + " are: " + ", ".join(names_of_moons) + ".")
+       elif names_of_moons == []:
               names_moons_label.config(text=str(current_planet) + " has no moons.")
+       elif len(names_of_moons) == 1:
+              names_moons_label.config(text=str(current_planet) + "'s moon is " + str(names_of_moons) + ".")
        names_moons_label.pack()
        
 
@@ -139,7 +140,7 @@ check_button.pack(pady=10)
 
 #Creating the second frame
 frame2 = tk.Frame(window)
-label_main_text = tk.Label(frame2, text = "You have picked " + str(get_entry(entry)), font="50")
+label_main_frame2 = tk.Label(frame2, text = f"You have picked {current_planet}", font="50")
 label_main_text.pack(pady=20)
 
 #Buttons and labels for frame 2
@@ -150,13 +151,13 @@ button_mass.pack(pady=10)
 mass_label = tk.Label(frame2, text="")
 mass_label.pack()
 
-button_distance = tk.Button(frame2, text = "Distance from the sun", command= display_distance(),
+button_distance = tk.Button(frame2, text = "Distance from the sun", command= display_distance,
                          cursor = "hand2")
 button_distance.pack(pady=10)
 distance_label = tk.Label(frame2, text="")
 distance_label.pack()
 
-button_number_moons = tk.Button(frame2, text = "Number of moons", command= display_number_of_moons(),
+button_number_moons = tk.Button(frame2, text = "Number of moons", command= display_number_of_moons,
                             cursor = "hand2")
 button_number_moons.pack(pady=10)
 number_moons_label = tk.Label(frame2, text="")

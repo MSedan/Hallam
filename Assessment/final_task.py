@@ -50,10 +50,10 @@ def check_if_planet(planet):
               show_frame2()
               current_planet = planet
        elif planet == "":
-              empty_label = tk.Label(frame1, text="Please enter a planet name.")
+              empty_label = tk.Label(frame1, text="Please enter a planet name.", fg="red")
               empty_label.pack()
        else:
-              wrong_planet = tk.Label(frame1, text= planet + " is not a planet or you have made a typo. Please try again.")
+              wrong_planet = tk.Label(frame1, text= planet + " is not a planet or you have made a typo. Please try again.", fg="red")
               wrong_planet.pack()
 
 #Get mass of the planet
